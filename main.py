@@ -1,13 +1,10 @@
 import streamlit as st
 
-# Ustawienia strony
 st.set_page_config(page_title="Taylor's Version Mood", page_icon="🧣")
 
-# Tytuł
 st.title("✨ Wybierz swoją Erę ✨")
 st.write("Wybierz nastrój, a ja dobiorę odpowiedni soundtrack.")
 
-# Baza danych
 eras = {
     "Energiczna / Do tańca": {
         "song": "Shake It Off",
@@ -24,6 +21,7 @@ eras = {
         "lyric": "I'd be a fearless leader, I'd be an alpha type.",
         "url": "https://www.youtube.com/watch?v=AqAJLh9wuZ0"
     },
+    # Tu wpisałem nazwę dokładnie taką jak na Twoim screenshocie:
     "Nostalgiczna / Filmowa (Dla odważnych)": {
         "song": "Style",
         "lyric": "You got that James Dean daydream look in your eye...",
@@ -32,13 +30,11 @@ eras = {
     }
 }
 
-# Wybór
 wybrany_nastroj = st.selectbox(
     "Jak się dzisiaj czujesz?",
     ["Wybierz opcję..."] + list(eras.keys())
 )
 
-# Wyświetlanie wyniku
 if wybrany_nastroj != "Wybierz opcję...":
     dane = eras[wybrany_nastroj]
     
@@ -46,7 +42,8 @@ if wybrany_nastroj != "Wybierz opcję...":
     st.subheader(f"🎶 {dane['song']}")
     st.write(f"*\"{dane['lyric']}\"*")
     
-    if "Retro Vibe" in wybrany_nastroj:
+    # POPRAWKA: Sprawdzamy po tytule piosenki - to zawsze zadziała!
+    if dane['song'] == "Style":
         st.success(dane['msg'])
         st.balloons()
         
