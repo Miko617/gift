@@ -1,56 +1,53 @@
-import time
+import streamlit as st
 
-def taylor_swift_mood_selector():
-    # Baza danych nastrojów i piosenek
-    eras = {
-        "1": {
-            "mood": "Energiczna / Do tańca",
-            "song": "Shake It Off",
-            "lyric": "Cause the players gonna play, play, play..."
-        },
-        "2": {
-            "mood": "Sentymentalna / Spokojna",
-            "song": "Cardigan",
-            "lyric": "And when I felt like I was an old cardigan under someone's bed..."
-        },
-        "3": {
-            "mood": "Pewna siebie / Boss lady",
-            "song": "The Man",
-            "lyric": "I'd be a fearless leader, I'd be an alpha type."
-        },
-        # ZMODYFIKOWANA OPCJA DLA ODWAŻNYCH (Retro Kino)
-        "4": {
-            "mood": "Nostalgiczna / Filmowa (Retro Vibe)",
-            "song": "Style (Cinema Version)",
-            "lyric": "You got that James Dean daydream look in your eye... A może sprawdzimy ten klimat w starym kinie?"
-        }
+# Ustawienia strony
+st.set_page_config(page_title="Taylor's Version Mood", page_icon="🧣")
+
+# Tytuł
+st.title("✨ Wybierz swoją Erę ✨")
+st.write("Wybierz nastrój, a ja dobiorę odpowiedni soundtrack.")
+
+# Baza danych
+eras = {
+    "Energiczna / Do tańca": {
+        "song": "Shake It Off",
+        "lyric": "Cause the players gonna play, play, play...",
+        "url": "https://www.youtube.com/watch?v=nfWlot6h_JM" 
+    },
+    "Sentymentalna / Spokojna": {
+        "song": "Cardigan",
+        "lyric": "And when I felt like I was an old cardigan under someone's bed...",
+        "url": "https://www.youtube.com/watch?v=K-a8s8OLBSE"
+    },
+    "Pewna siebie / Boss lady": {
+        "song": "The Man",
+        "lyric": "I'd be a fearless leader, I'd be an alpha type.",
+        "url": "https://www.youtube.com/watch?v=AqAJLh9wuZ0"
+    },
+    "Nostalgiczna / Filmowa (Dla odważnych)": {
+        "song": "Style",
+        "lyric": "You got that James Dean daydream look in your eye...",
+        "msg": "🎬 Skoro mamy już klimat, to może wybierzemy się do retro kina?",
+        "url": "https://www.youtube.com/watch?v=-CmadmM5cOk"
     }
+}
 
-    print("✨ Witaj w generatorze nastroju Taylor Swift! ✨")
-    print("------------------------------------------------")
-    time.sleep(1) 
+# Wybór
+wybrany_nastroj = st.selectbox(
+    "Jak się dzisiaj czujesz?",
+    ["Wybierz opcję..."] + list(eras.keys())
+)
+
+# Wyświetlanie wyniku
+if wybrany_nastroj != "Wybierz opcję...":
+    dane = eras[wybrany_nastroj]
     
-    print("Jak się dzisiaj czujesz? Wybierz numer:")
+    st.divider()
+    st.subheader(f"🎶 {dane['song']}")
+    st.write(f"*\"{dane['lyric']}\"*")
     
-    for key, value in eras.items():
-        print(f"[{key}] - {value['mood']}")
-
-    print("------------------------------------------------")
-    
-    wybor = input("Twój wybór (wpisz numer): ")
-
-    print("\nSzukam odpowiedniej ścieżki dźwiękowej...\n")
-    time.sleep(2) 
-
-    if wybor in eras:
-        wybrana_era = eras[wybor]
-        print(f"🎶 Piosenka dla Ciebie: {wybrana_era['song']}")
-        print(f"💬 Przekaz dnia: \"{wybrana_era['lyric']}\"")
+    if "Retro Vibe" in wybrany_nastroj:
+        st.success(dane['msg'])
+        st.balloons()
         
-        if wybor == "4":
-            print("\n🎬 (Biletów jeszcze nie mam, ale repertuar możemy wybrać razem!)")
-    else:
-        print("Taylor jeszcze o tym nie zaśpiewała. Spróbuj wybrać inny numer!")
-
-if __name__ == "__main__":
-    taylor_swift_mood_selector()
+    st.video(dane['url'])
